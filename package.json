@@ -3,6 +3,6 @@
   "description": "Live satellite pictures of Earth on a 3D globe",
   "private": true,
   "type": "module",
-  "scripts": { "test": "node --test tests/" },
+  "scripts": { "test": "node --test" },
   "engines": { "node": ">=22" }
 }
