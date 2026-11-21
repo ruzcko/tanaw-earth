@@ -210,3 +210,119 @@ button { font: inherit; }
 .dock :focus-visible,
 .maplibregl-canvas:focus-visible { outline: 2px solid var(--pic-ink); outline-offset: 2px; }
 .maplibregl-canvas:focus-visible { outline-offset: -2px; }
+
+/* Toast: above the controls, centred */
+.toast {
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  bottom: calc(max(14px, env(safe-area-inset-bottom)) + 108px);
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  border-radius: var(--radius-control);
+  background: var(--scrim);
+  color: var(--pic-ink);
+  font: 600 15px/1.3 var(--sans);
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+  visibility: hidden;
+}
+.toast.shown { visibility: visible; }
+
+/* Sheets: away from the picture, so they follow the theme. Bottom sheet on phones, centred from 600 px. */
+.sheet {
+  width: 100%;
+  max-width: none;
+  max-height: 85dvh;
+  margin: auto 0 0;
+  padding: 0 16px max(16px, env(safe-area-inset-bottom));
+  border: 0;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  background: var(--surface);
+  color: var(--ink);
+  font: 400 15px/1.45 var(--sans);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.sheet::backdrop { background: var(--scrim); }
+/* A fixed height keeps the search field near the top, above a phone's keyboard, while results change. */
+.search-sheet { height: 85dvh; }
+@media (min-width: 600px) {
+  .sheet { width: 420px; margin: auto; padding-bottom: 16px; border-radius: var(--radius-card); }
+  .search-sheet { height: min(480px, 85dvh); }
+}
+
+.sheet-head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.sheet-head h2 { flex: 1; margin: 0; font: 700 20px/1.2 var(--sans); }
+.sheet-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.sheet :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* 16 px keeps phones from zooming in when the field takes focus. */
+#search-input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1 var(--sans);
+}
+#search-input::placeholder { color: var(--muted); opacity: 1; }
+.results { margin: 0; padding: 0; list-style: none; }
+.results li + li { border-top: 1px solid var(--line); }
+.results button {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 400 16px/1.3 var(--sans);
+  text-align: left;
+  cursor: pointer;
+}
+.sheet-note { padding: 14px 4px; color: var(--muted); }
+
+.about-sheet p { margin-top: 12px; }
+.about-sheet h3 { margin: 20px 0 8px; padding-top: 16px; border-top: 1px solid var(--line); font: 700 15px/1.3 var(--sans); }
+.about-list { margin: 12px 0 0; }
+.about-list dt { font-weight: 700; }
+.about-list dd { margin: 0 0 8px; color: var(--muted); }
+.theme-choice { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.theme-choice button {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--bg);
+  color: var(--ink);
+  font: 600 15px/1 var(--sans);
+  cursor: pointer;
+}
+.theme-choice button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+.sheet-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-weight: 600; }

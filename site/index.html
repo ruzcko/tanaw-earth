@@ -19,7 +19,16 @@
 <link rel="preload" href="fonts/onest-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="vendor/maplibre-gl/6.16.0/maplibre-gl.css">
 <link rel="stylesheet" href="style.css">
+<script>
+  // Apply the saved theme before the first paint.
+  try {
+    const theme = localStorage.getItem("tanaw-earth-theme");
+    if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+  } catch {}
+</script>
 <script type="module" src="app.js"></script>
+<script type="module" src="sheets.js"></script>
+<script type="module" src="save.js"></script>
 </head>
 <body>
 <div id="map"></div>
@@ -94,5 +103,47 @@
     </button>
   </div>
 </div>
+
+<p class="toast" id="toast" role="status"></p>
+
+<!-- Tabler Icons "x" (outline), MIT -->
+<dialog class="sheet search-sheet" id="search-sheet" aria-label="Search a city">
+  <div class="sheet-head">
+    <input type="text" id="search-input" placeholder="Search a city" aria-label="Search a city" autocomplete="off" spellcheck="false" enterkeyhint="search">
+    <button type="button" class="sheet-close" aria-label="Close"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg></button>
+  </div>
+  <ul class="results" id="search-results"></ul>
+  <p class="sheet-note" id="search-empty" hidden>No city by that name</p>
+</dialog>
+
+<dialog class="sheet about-sheet" id="about-sheet" aria-labelledby="about-title">
+  <div class="sheet-head">
+    <h2 id="about-title">Tanaw Earth</h2>
+    <button type="button" class="sheet-close" aria-label="Close"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6l-12 12"/><path d="M6 6l12 12"/></svg></button>
+  </div>
+  <p>Live satellite pictures of Earth, from NASA's Global Imagery Browse Services.</p>
+  <dl class="about-list">
+    <dt>Clouds</dt>
+    <dd>GOES-East and GOES-West in colour, Himawari-9 in grey. Every 10 minutes, usually 40 to 60 minutes old.</dd>
+    <dt>Infrared</dt>
+    <dd>How cold the cloud tops are, from the same satellites. Every 10 minutes, day and night.</dd>
+    <dt>Colour</dt>
+    <dd>NOAA-21, one picture a day.</dd>
+    <dt>Lights</dt>
+    <dd>Black Marble city lights, 2016.</dd>
+  </dl>
+  <p>Europe, Africa and the Indian Ocean show the daily colour picture under Clouds and Infrared, because no live picture of them is available here.</p>
+  <h3 id="theme-title">Theme</h3>
+  <div class="theme-choice" role="group" aria-labelledby="theme-title">
+    <button type="button" data-theme-choice="device" aria-pressed="false">Device</button>
+    <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+    <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+  </div>
+  <h3>Credits</h3>
+  <p>We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of NASA's Earth Science Data and Information System (ESDIS). Himawari-9 (JMA), GOES-East and GOES-West (NOAA), NOAA-21 VIIRS and Black Marble (NASA, NOAA).</p>
+  <p>Coastlines and city names: Natural Earth (public domain).</p>
+  <p>MapLibre GL JS 6.16.0 (BSD-3-Clause), Tabler Icons (MIT), fonts Onest, Spline Sans Mono and Michroma (SIL Open Font License).</p>
+  <p><a class="sheet-link" href="https://tanaw-weather.ruzcko.dev">Tanaw Weather</a></p>
+</dialog>
 </body>
 </html>
