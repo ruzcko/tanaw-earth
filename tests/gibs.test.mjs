@@ -147,9 +147,9 @@ test("dailyDates ends on yesterday in UTC, around midnight", () => {
 });
 
 test("covers uses the disc limit around the sub-satellite point", () => {
-  assert.equal(covers("himawari", 140.7, 74), true);
-  assert.equal(covers("himawari", 140.7, 76), false);
-  assert.equal(covers("goesEast", -75.2, -74), true);
+  assert.equal(covers("himawari", 140.7, 77), true);
+  assert.equal(covers("himawari", 140.7, 79), false);
+  assert.equal(covers("goesEast", -75.2, -77), true);
   assert.equal(covers("goesEast", 0, 51.5), false); // London
   assert.equal(covers("viirs", 0, 51.5), true);
 });
@@ -169,7 +169,8 @@ test("covers and topSourceAt across the antimeridian", () => {
 test("topSourceAt follows draw order and only the given sources", () => {
   const all = ["himawari", "goesWest", "goesEast"];
   assert.equal(topSourceAt(all, 121, 14.6), "himawari"); // Manila
-  assert.equal(topSourceAt(all, -74, 40.7), "goesWest"); // New York: both GOES cover it
+  assert.equal(topSourceAt(all, -74, 40.7), "goesEast"); // New York: GOES-West stops at 106° W
+  assert.equal(topSourceAt(all, -118.2, 34.1), "goesWest"); // Los Angeles: both GOES cover it
   assert.equal(topSourceAt(["goesEast"], -74, 40.7), "goesEast");
   assert.equal(topSourceAt(["goesWest", "goesEast"], 121, 14.6), null);
   assert.equal(topSourceAt(all, 36.8, -1.3), null); // Nairobi

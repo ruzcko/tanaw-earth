@@ -9,9 +9,10 @@ const DAY = 24 * 60 * MIN;
 // lon: sub-satellite longitude of a geostationary source.
 // bounds: [west, south, east, north] used to limit tile requests; tiles stop
 // at the antimeridian, so a source never draws on the far side of it.
+// GOES-West stops halfway to GOES-East, which sees that side better.
 export const SOURCES = {
   himawari: { key: "himawari", name: "Himawari-9", lon: 140.7, bounds: [60, -81, 180, 81] },
-  goesWest: { key: "goesWest", name: "GOES-West", lon: -137.0, bounds: [-180, -81, -57, 81] },
+  goesWest: { key: "goesWest", name: "GOES-West", lon: -137.0, bounds: [-180, -81, -106, 81] },
   goesEast: { key: "goesEast", name: "GOES-East", lon: -75.2, bounds: [-155, -81, 5, 81] },
   viirs: { key: "viirs", name: "NOAA-21" },
   lights: { key: "lights", name: "Black Marble" },
@@ -66,11 +67,12 @@ export const MODES = {
 // The one time of the Black Marble picture.
 export const LIGHTS_TIME = "2016-01-01";
 
-// Geostationary pictures are usable up to this great-circle distance (degrees)
-// from the sub-satellite point. Measured on GIBS tiles: GeoColor turns
-// transparent from about 76.5 degrees, the other layers from about 78.5, and
-// pixels are visibly stretched beyond about 75.
-const DISC_LIMIT = 75;
+// Geostationary pictures reach this great-circle distance (degrees) from the
+// sub-satellite point. Measured on GIBS tiles: GeoColor turns transparent from
+// about 76.5 degrees, the other layers from about 78.5. The stamp follows what
+// is drawn, so the limit sits at the drawn edge rather than where pixels start
+// to stretch (about 75).
+const DISC_LIMIT = 78;
 
 // Top of the drawing first.
 const TOP_FIRST = ["himawari", "goesWest", "goesEast"];
