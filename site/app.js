@@ -197,7 +197,7 @@ async function setMode(key) {
 
   if (mode.kind === "loop") {
     const lists = await Promise.allSettled(
-      mode.live.map((entry) => fetchTimes(entry.layer, entry.level, now).then((times) => times.filter((t) => t <= now - SETTLE_MS))),
+      mode.live.map((entry) => fetchTimes(entry.layer, entry.level, now, 4).then((times) => times.filter((t) => t <= now - SETTLE_MS))),
     );
     if (id !== loadId) return; // the mode changed while the time lists loaded
     const times = {};
